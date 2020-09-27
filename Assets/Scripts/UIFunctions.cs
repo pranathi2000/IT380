@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIFunctions : MonoBehaviour
 {
-    // Start is called before the first frame update
+
     private void Start()
     {
         Debug.Log("Hello World! This is my first script");
@@ -15,4 +14,8 @@ public class UIFunctions : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+
+    
+                
+    
 }
