@@ -106,7 +106,7 @@ public class CanvasUIFunctions : MonoBehaviour
                     + "Gender: Male\n"
                     + "Location: Suburbia USA\n"
                     + "Personal Notes:\n"
-                    + "    •	Plays recreational sports but isn’t very dedicated to it\n"
+                    + "    •	Tried out for track and field once and didn’t make it\n"
                     + "    •	Likes to stay inside and play video games\n"
                     + "    •	Likes to eat fast food and snacks on junk food\n"
                     + "Student Notes:\n"
@@ -121,17 +121,23 @@ public class CanvasUIFunctions : MonoBehaviour
                     + "After completing the initial phase of research, I have chosen a persona named Wilson. Wilson represents a male middle school student who would use this application. He mirrors a child in middle school who would rather play a game than learn from a lecture. He needs to learn from activities that are more engaging and interactive to retain and process information. I chose this persona because this is around this age where children start to make their own decisions and have a say in what they should eat. They will better retain this information at this age. ";
                 break;
             case 8:
-                introText.text = "PROBLEM SCENARIO\n\n";
+                introText.fontSize = 25;
+                introText.text = "PROBLEM SCENARIO\n\n"
+                    + "Wilson is a 12-year-old with a fascination with track and field. He loves sports in general but never has been the best in them. He enjoys watching and would love to play but his stamina and eating habits are not on par with what they should be. He had learned about the myPlate diagram last year, but he did not understand what those foods did for him. He was not engaged so he just ended up memorizing the food plate for his exam and never took into consideration that he could use it to become a better athlete. "
+                    + "\nOne day, Wilson finds out that the school track and field team is holding try-outs and he decides to go. Wilson ends up being cut and is discouraged from participating in any sports. He then decides to play video games more often and cut down on the time he played any sports or training to try out again. ";
                 break;
             case 9:
-                introText.text = "ACTIVITY SCENARIO\n\n";
+                introText.text = "ACTIVITY SCENARIO\n\n"
+                    + "One day at school, Wilson attends his health class and learns that they are beginning to teach the nutrition section. Wilson starts to feel annoyed as he remembers this section to be boring in last year’s health class. He dreads watching outdated videos and learning to memorize the food plate diagram. He had never paid attention to his diet and never realized how big a part it plays in being a better athlete. To his surprise, the homework that the teacher assigned was to play a game and write what he learned from it. Excited that he gets to play a game for homework, Wilson is eager to start his homework. ";
                 break;
             case 10:
-                introText.text = "ACTIVITY SCENARIO CONTINUTED\n\n";
+                introText.text = "ACTIVITY SCENARIO CONTINUTED\n\n"
+                    + "After completing all of the levels in the game, Wilson ends up learning all the different food groups that are essential for the body. Seeing how each of them affects the body motivates Wilson to start to eat healthier foods from those food groups to see if he can tell the differences that the game mentioned. He was also inspired to begin his training again but this time with healthy eating habits that take his training to the next level. He begins to notice that he has more energy and speed. Playing the game makes Wilson realize what effects these foods have on the body and the benefits of eating them. He then decides that he wants to incorporate the healthy eating into his everyday lifestyle.";
                 nextButton.SetActive(true);
                 break;
             case 11:
-                introText.text = "PROBLEM STATEMENT\n\n";
+                introText.text = "PROBLEM STATEMENT\n"
+                    + "\nWilson is bored and not interested in the way nutrition is taught in school. He does not learn well from reading infographics or from lectures. He never really knew the importance of eating healthy, he knew that it was a good thing to do but not why. Learning about the different essential groups in an interactive way shows Wilson the effects they have on the body and why they are necessary to lead a healthy life. This game breaks down the different groups into mini games where the essence of the group is delivered through the game Wilson plays. Having an interactive assignment is what helps Wilson concentrate and learn at the same time. He is able to relate the information that he learns in the interactive game to his real life.";
                 nextButton.SetActive(false);
                 break;
         }
