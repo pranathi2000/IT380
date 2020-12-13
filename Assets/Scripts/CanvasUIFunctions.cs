@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
+using System.Collections;
 
 public class CanvasUIFunctions : MonoBehaviour
 {
@@ -9,16 +11,65 @@ public class CanvasUIFunctions : MonoBehaviour
     [Space(2f)]
     [Header("Intro Scene Properties", order = 1)]
     public TMP_Text introText;
+    public TMP_Text lvlOneText;
     public GameObject introImage;
     public GameObject backButton;
     public GameObject nextButton;
-    //[Header("Tutorial Scene Properties", order = 2)]
-    //[Space(2f)]
-    //[Header("Level01 Scene Properties", order = 3)]
+    
+    [Header("Level 1 Scene Properties", order = 2)]
+    public GameObject carb;
+    public GameObject SpeechBubble;
+    public GameObject QuizPanel;
+    public GameObject PlayGameButton;
+    public TMP_Text QuestionText;
+    public TMP_Text TextA;
+    public TMP_Text TextB;
+    public TMP_Text TextC;
+    public TMP_Text TextD;
+    public TMP_Text PwrUpScore;
+    public TMP_Text ResultText;
+    public TMP_Text Countdown;
+    public TMP_Text Output;
+    public GameObject Instructions;
+    public Collider2D startLine;
+    public Collider2D carbCarl;
+    public GameObject trackCarb;
+    public GameObject trackObjects;
+    public GameObject QuizGame;
+    public GameObject cake, icecream;
+    public GameObject resultsPanel;
+    public GameObject track;
+    public Collider2D topLine;
+    public Collider2D bottomLine;
+    public GameObject panel;
+    public Rigidbody2D rigid;
+    [SerializeField] private LayerMask PlatformLayerMask;
+    public Collider2D Hurdle1;
+    public Collider2D Hurdle2;
+    public Collider2D Hurdle3;
+
+    public bool move = false;
+    bool touching = false;
+    bool touchingTop = false;
+    bool touchingBottom = false;
+    int speed = 1;
+    int powerups = 0;
+    private float boostTimer;
+
+
+    int q1, q2, q3; // question numbers
+    int qCount; // count of what question you are on
+    int[] questions = new int[3]; // array to hold question numbers
+   
     int introSequence;
+    int lvlOneSeq;
+    int score = 2;
+    
 
     private void Awake()
     {
+        boostTimer = 0;
+        
         currentScene = SceneManager.GetActiveScene();
         switch (currentScene.name)
         {
@@ -29,7 +80,8 @@ public class CanvasUIFunctions : MonoBehaviour
                 break;
             case "02TutorialScene":
                 break;
-            case "03Level01Scene":
+            case "03LevelOneScene":
+                InitializeLvlOne();
                 break;
         }
     }
@@ -44,12 +96,35 @@ public class CanvasUIFunctions : MonoBehaviour
         nextButton.SetActive(true);
     }
 
+    
+
+    void InitializeLvlOne()
+    {
+        carb.SetActive(true);
+        //panel.GetComponent<Image>().color = new Color(0.9921f, 0.7653f, 0.1686f);
+        trackObjects.SetActive(false);
+        ResultText.text = "";
+        setQNums();
+        Debug.Log("IM HERE");
+        nextButton.SetActive(true);
+        QuizPanel.SetActive(false);
+        QuizGame.SetActive(false);
+        Instructions.SetActive(false);
+        
+        //carb.gameObject.transform.position = new Vector3(-251f, -182f, 0f);
+        SpeechBubble.SetActive(true);
+        backButton.SetActive(false);
+        lvlOneText.fontSize = 40;
+        lvlOneText.text = "Hi! My name is Carb Carl and I am here to teach you about Carbohydrates!";
+    }
+
     public void IntroSequenceNext()
     {
         introSequence++;
         switch (introSequence)
         {
             case 0:
+                backButton.SetActive(false);
                 InitializeIntro();
                 break;
 
@@ -95,7 +170,7 @@ public class CanvasUIFunctions : MonoBehaviour
                 introText.text = "STAKEHOLDERS\n\n"
                     + "Teachers\n"
                     + "Parents\n"
-                    + "Students\n\n"
+                    + "Dietitians\n\n"
                     + "USERS: Students in grades 5-8";
                 break;
             case 6:
@@ -131,7 +206,7 @@ public class CanvasUIFunctions : MonoBehaviour
                     + "One day at school, Wilson attends his health class and learns that they are beginning to teach the nutrition section. Wilson starts to feel annoyed as he remembers this section to be boring in last year’s health class. He dreads watching outdated videos and learning to memorize the food plate diagram. He had never paid attention to his diet and never realized how big a part it plays in being a better athlete. To his surprise, the homework that the teacher assigned was to play a game and write what he learned from it. Excited that he gets to play a game for homework, Wilson is eager to start his homework. ";
                 break;
             case 10:
-                introText.text = "ACTIVITY SCENARIO CONTINUTED\n\n"
+                introText.text = "ACTIVITY SCENARIO CONTINUED\n\n"
                     + "After completing all of the levels in the game, Wilson ends up learning all the different food groups that are essential for the body. Seeing how each of them affects the body motivates Wilson to start to eat healthier foods from those food groups to see if he can tell the differences that the game mentioned. He was also inspired to begin his training again but this time with healthy eating habits that take his training to the next level. He begins to notice that he has more energy and speed. Playing the game makes Wilson realize what effects these foods have on the body and the benefits of eating them. He then decides that he wants to incorporate the healthy eating into his everyday lifestyle.";
                 nextButton.SetActive(true);
                 break;
@@ -149,5 +224,407 @@ public class CanvasUIFunctions : MonoBehaviour
         IntroSequenceNext();
     }
 
+   
 
+    public void OneSequenceBack()
+    {
+        lvlOneSeq -= 2;
+        LevelOneNext();
+    }
+
+    public void LevelOneNext()
+    {
+        lvlOneSeq++;
+        switch (lvlOneSeq)
+        {
+            case 0:
+                InitializeLvlOne();
+                break;
+            case 1:
+                //lvlOneText.transform.position = new Vector3(200.0f, 187.0f, 0.0f);
+                lvlOneText.text = "I have a track meet to get to but before that here are some facts about carbohydrates and healthy eating that will help us!";
+                backButton.SetActive(true);
+                break;
+            case 2:
+                //lvlOneText.transform.position = new Vector3(206.0f, 138.0f, 0.0f);
+                lvlOneText.text = "Healthy eating is very important to keep us in the best shape we can be!";
+                break;
+            case 3:
+                lvlOneText.text = "There are many perks to healthy eating such as more energy, disease prevention, and better mood.";
+                break;
+            case 4:
+                lvlOneText.text = "Not eating healthy could lead to feeling tired, feeling weak, and not being your best self!";
+                break;
+            case 5:
+                lvlOneText.text = "There are 6 essential food groups that you should eat foods from everyday! Each of them provide different benefits for the body";
+                break;
+            case 6:
+                lvlOneText.text = "We are going to call these food groups nutrients, so we are not talking about the foods themselves but more what is IN them";
+                break;
+            case 7:
+                lvlOneText.text = "Nutrients are substances that the body uses to perform its functions. They are split into MICRONUTRIENTS and MACRONUTRIENTS";
+                break;
+            case 8:
+                lvlOneText.fontSize = 35;
+                lvlOneText.text = "So like the name suggests, micronutrients are nutrients that the body needs in small amounts, and macronutrients are nutrients that they body needs in large amounts";
+                break;
+            case 9:
+                lvlOneText.fontSize = 40;
+                //lvlOneText.transform.position = new Vector3(1.0f, 13.5f, 0.0f);
+                lvlOneText.text = "So right now we are going to cover one of the macronutrients, which are Carbohydrates! Like me!";
+                break;
+            case 10:
+                lvlOneText.text = "Carbohydrates are your body's main source of ENERGY! They fuel your body and organs ";
+                break;
+            case 11:
+                lvlOneText.fontSize = 38;
+                lvlOneText.text = "They create energy by breaking down the carbs in your food into simple sugars, these sugars are then absorbed into the blood stream and used as energy";
+                break;
+            case 12:
+                lvlOneText.fontSize = 45;
+                lvlOneText.text = "But... NOT ALL CARBOHYDRATES ARE GOOD!";
+                break;
+            case 13:
+                lvlOneText.fontSize = 37;
+                lvlOneText.text = "There are simple carbohydrates such as table sugar, soda and baked goods that have sugar, but are NOT good for you.";
+                break;
+            case 14:
+                lvlOneText.fontSize = 37;
+                lvlOneText.text = "These carbs digest faster and do not give you stable source of energy. They may give you energy for a short amount of time but it won't last long.";
+                break;
+            case 15:
+                lvlOneText.text = "On the other hand, we have complex carbohydrates which are foods such as brown rice, oats, and beans. ";
+                break;
+            case 16:
+                lvlOneText.text = "Complex carbohydrates break down slower and provide you with more sustainable energy that won't make you crash";
+                break;
+            case 17:
+                lvlOneText.fontSize = 40;
+                //lvlOneText.transform.position = new Vector3(1.0f, 13.8f, 0.0f);
+                lvlOneText.text = "Now that we know all about carbohydrates let's use what we learned to help me at the track meet! ";
+                break;
+            case 18:
+                lvlOneText.fontSize = 38;
+                //lvlOneText.transform.position = new Vector3(-0.2f, 21.7f, 0.0f);
+                lvlOneText.text = "I will ask you a series of questions about what we just learned, and based on your answers, you will get a certain amount of powerups to use during the track game";
+                break;
+            case 19:
+                lvlOneText.fontSize = 42;
+                //lvlOneText.transform.position = new Vector3(1.3f, 12.5f, 0.0f);
+                lvlOneText.text = "Don't worry too much about getting them all right. You will have a chance to try again! ";
+                break;
+            case 20:
+                Quiz();
+                break;
+        }
+        
+    }
+
+    public void setQNums ()
+    {
+        q1 = (int)Random.Range(1.0f, 8.0f);
+        q2 = (int)Random.Range(1.0f, 8.0f);
+        while (q2 == q1)
+        {
+            q2 = (int)Random.Range(1.0f, 8.0f);
+        }
+        q3 = (int)Random.Range(1.0f, 8.0f);
+        while (q3 == q2 || q3 == q1)
+        {
+            q3 = (int)Random.Range(1.0f, 8.0f);
+        }
+        questions[0] = q1;
+        questions[1] = q2;
+        questions[2] = q3;
+        
+    }
+
+    public void Quiz()
+    {
+        QuizPanel.SetActive(true);
+        QuizGame.SetActive(true);
+        PlayGameButton.SetActive(false);
+        backButton.SetActive(false);
+        nextButton.SetActive(false);
+        SpeechBubble.SetActive(false);
+        //carb.gameObject.transform.position = new Vector3(-261f, -43f, 0f);
+
+
+
+        //int[] questions = { q1, q2, q3 };
+
+
+        if (qCount < 4)
+        {
+            switch (questions[qCount])
+            {
+                case 1:
+                    QuestionText.text = "Carbohydrates are the body's main source of...";
+                    TextA.text = "Fat";
+                    TextB.text = "Energy";
+                    TextC.text = "Calories";
+                    TextD.text = "Vitamins";
+                    GameObject.Find("ButtonB").tag = "Correct";
+                    
+                    break;
+                case 2:
+                    QuestionText.text = "How many essential nutrients are there?";
+                    TextA.text = "6";
+                    TextB.text = "4";
+                    TextC.text = "9";
+                    TextD.text = "2";
+                    GameObject.Find("ButtonA").tag = "Correct";
+                    
+                    break;
+                case 3:
+                    QuestionText.text = "Nutrients split into the categories of...";
+                    TextA.text = "Micronutrients";
+                    TextB.text = "Macronutrients";
+                    TextC.text = "Meganutrients";
+                    TextD.text = "A and B";
+                    GameObject.Find("ButtonD").tag = "Correct";
+                    break;
+                case 4:
+                    QuestionText.text = "Baked goods often contain _______ carbohydrates.";
+                    TextA.text = "complex";
+                    TextB.text = "double";
+                    TextC.text = "simple";
+                    TextD.text = "basic";
+                    GameObject.Find("ButtonC").tag = "Correct";
+                    break;
+                case 5:
+                    QuestionText.text = "What type of carbohydrates usually digest faster?";
+                    TextA.text = "complex";
+                    TextB.text = "double";
+                    TextC.text = "simple";
+                    TextD.text = "basic";
+                    GameObject.Find("ButtonC").tag = "Correct";
+                    break;
+                case 6:
+                    QuestionText.text = "What are the two types of carbohydrates?";
+                    TextA.text = "good and bad";
+                    TextB.text = "single and half";
+                    TextC.text = "double and single";
+                    TextD.text = "complex and simple";
+                    GameObject.Find("ButtonD").tag = "Correct";
+                    break;
+                case 7:
+                    QuestionText.text = "Which type of carbohydrates is better for you?";
+                    TextA.text = "complex";
+                    TextB.text = "double";
+                    TextC.text = "simple";
+                    TextD.text = "basic";
+                    GameObject.Find("ButtonA").tag = "Correct";
+                    break;
+                case 8:
+                    QuestionText.text = "Brown rice is an example of what type of carbohydrate?";
+                    TextA.text = "complex";
+                    TextB.text = "double";
+                    TextC.text = "simple";
+                    TextD.text = "A and C";
+                    GameObject.Find("ButtonA").tag = "Correct";
+                    break;
+            }
+        }
+
+        
+    }
+
+    public void Answer(GameObject button)
+    {
+        if (qCount < 3)
+        {
+            if (button.tag == "Correct")
+            {
+
+                PwrUpScore.text = (System.Int32.Parse(PwrUpScore.text) + score).ToString();
+                qCount++;
+                if (qCount != 3)
+                {
+                    ResultText.text = "Good Job! " + (3 - qCount) + " more questions to go!";
+                    score = 2;
+                    button.tag = "Incorrect";
+                    Quiz();
+                }
+                else
+                {
+                    ResultText.fontSize = 40;
+                    powerups = System.Int32.Parse(PwrUpScore.text);
+                    ResultText.text = "Awesome! Now we have all the energy we need for my track meet! Come on lets go play!";
+                    PlayGameButton.SetActive(true);
+                }
+            }
+            
+            
+            else
+            {
+                if (score > 0)
+                {
+                    score--;
+                }
+                ResultText.text = "Whoops, wrong answer. Try again!";
+                Quiz();
+            }
+        }
+        
+    }
+
+    public void miniGame()
+    {
+        Countdown.gameObject.SetActive(false);
+        trackObjects.SetActive(true);
+        rigid = trackCarb.transform.GetComponent<Rigidbody2D>();
+        //GameObject.FindGameObjectWithTag("Main Camera").GetComponent<S>
+        GameObject.Find("QuizGame").SetActive(false);
+        Instructions.SetActive(true);
+        //turn cartoon off
+        GameObject.Find("CarbCartoon").SetActive(false);
+        PlayGameButton.SetActive(false);
+        //turn quizpanel transparency down all the way
+        Image image = QuizPanel.GetComponent<Image>();
+        Color c = image.color;
+        c.a = 0;
+        image.color = c;
+
+
+        //Panel with instructions shows up
+        Instructions.SetActive(true);
+    }
+
+    public void startMiniGame()
+    {
+        // turn off panel
+        Instructions.SetActive(false);
+
+        //start countdown
+        Countdown.gameObject.SetActive(true);
+        Countdown.text = "3";
+        //System.Threading.Thread.Sleep(1000);
+        Countdown.text = "2";
+        //System.Threading.Thread.Sleep(1000);
+        Countdown.text = "1";
+        //System.Threading.Thread.Sleep(1000);
+        Countdown.text = "GO!";
+        //System.Threading.Thread.Sleep(1000);
+        Countdown.gameObject.SetActive(false);
+
+        //add collider to white line so that gameobjects cant go past it
+        //can move the carb using keys
+        move = true;
+        
+
+    }
+
+
+
+    public void Update()
+    {
+        
+        /*
+        if (carbCarl.IsTouching(startLine))
+        {
+            touching = true;
+            Debug.Log("Touching the Line");
+        }
+
+        else if (carbCarl.IsTouching(topLine))
+        {
+            touchingTop = true;
+            Debug.Log("Touching Top");
+        }
+        else if (carbCarl.IsTouching(bottomLine))
+        {
+            touchingBottom = true;
+            Debug.Log("Touching Bottom");
+        }
+        else
+        {
+            touching = false;
+            touchingTop = false;
+            touchingBottom = false;
+        }
+        */
+        
+        if (move)
+        {
+            
+            if (!touching)
+            {
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    Debug.Log("Move left");
+                    Vector3 position = trackCarb.transform.position;
+                    position.x -= speed;
+                    trackCarb.transform.position = position;
+                    
+                    //Vector2 move = new Vector2(-1, 0);
+                    //rigid.MovePosition(rigid.position + move);
+
+                    Vector3 positionTrack = track.transform.position;
+                    positionTrack.x += (float)1.5 * speed;
+                    track.transform.position = positionTrack;
+                    
+                }
+            }
+
+            //if (!carbCarl.IsTouching(Hurdle1) && !carbCarl.IsTouching(Hurdle2) && !carbCarl.IsTouching(Hurdle3))
+            //{
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                //Vector2 move = new Vector2(1, 0);
+                //rigid.MovePosition(rigid.position + move);
+                
+                    Vector3 position = trackCarb.transform.position;
+                    position.x += speed;
+                    trackCarb.transform.position = position;
+                
+
+                    Vector3 positionTrack = track.transform.position;
+                    positionTrack.x -= (float)1.5 * speed;
+                    track.transform.position = positionTrack;
+
+                }
+            //}
+
+            if (isGrounded() && Input.GetKey(KeyCode.UpArrow))
+            {
+                float jumpVelocity = 150f;
+                rigid.velocity = Vector2.up * jumpVelocity;
+            }
+            
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (powerups > 0)
+                {
+                    speed ++;
+                    powerups--;
+                    boostTimer += Time.deltaTime;
+                    if (boostTimer >= 1)
+                    {
+                        speed--;
+                        boostTimer = 0;
+                    }
+                    PwrUpScore.text = (powerups).ToString();
+
+                }
+            }
+        }
+    }
+
+    private bool isGrounded()
+    {
+        RaycastHit2D raycast = Physics2D.BoxCast(carbCarl.bounds.center, carbCarl.bounds.size, 0f, Vector2.down, .1f, PlatformLayerMask);
+        //Debug.Log(raycast.collider);
+        return raycast.collider != null;
+
+    }
 }
+
+
+        
+            
+    
+
+
+

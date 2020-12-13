@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Correct
+  - Incorrect
+  - win
+  - lose
+  - Panel
+  - stop
+  - hurdle
+  - hurdle1
+  - backh1
   layers:
   - Default
   - TransparentFX
@@ -13,7 +22,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Platform
   - 
   - 
   - 
