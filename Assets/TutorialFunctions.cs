@@ -172,10 +172,6 @@ public class TutorialFunctions : MonoBehaviour
             }
             if (!g1 && !g2)
             {
-            Vector3 pos;
-            pos = trackCarb.transform.position;
-            pos.x = -120;
-            //trackCarb.transform.position = pos;
 
                 TutorialNext();
             }
@@ -256,7 +252,7 @@ public class TutorialFunctions : MonoBehaviour
         private bool isGrounded()
         {
             RaycastHit2D raycast = Physics2D.BoxCast(carbCarl.bounds.center, carbCarl.bounds.size, 0f, Vector2.down, .1f, PlatformLayerMask);
-            //Debug.Log(raycast.collider);
+            Debug.Log(raycast.collider);
             return raycast.collider != null;
 
         }

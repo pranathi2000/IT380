@@ -33,6 +33,7 @@ public class CanvasUIFunctions : MonoBehaviour
     public GameObject Instructions;
     public Collider2D startLine;
     public Collider2D carbCarl;
+    //public Rigidbody2D carl;
     public GameObject trackCarb;
     public GameObject trackObjects;
     public GameObject QuizGame;
@@ -47,12 +48,16 @@ public class CanvasUIFunctions : MonoBehaviour
     public Collider2D Hurdle1;
     public Collider2D Hurdle2;
     public Collider2D Hurdle3;
+    public GameObject Finish;
+    public TMP_Text output;
+    public TMP_Text Des;
+    public float forceAmount = 100f;
 
     public bool move = false;
     bool touching = false;
     bool touchingTop = false;
     bool touchingBottom = false;
-    int speed = 1;
+    float speed = 0.5f;
     int powerups = 0;
     private float boostTimer;
 
@@ -69,7 +74,7 @@ public class CanvasUIFunctions : MonoBehaviour
     private void Awake()
     {
         boostTimer = 0;
-        
+        //rb = GetComponent<Rigidbody>();
         currentScene = SceneManager.GetActiveScene();
         switch (currentScene.name)
         {
@@ -473,7 +478,9 @@ public class CanvasUIFunctions : MonoBehaviour
     {
         Countdown.gameObject.SetActive(false);
         trackObjects.SetActive(true);
-        rigid = trackCarb.transform.GetComponent<Rigidbody2D>();
+        
+        //trackCarb.GetComponent<Rigidbody2D>().isKinematic = true;
+        //rigid = trackCarb.transform.GetComponent<Rigidbody2D>();
         //GameObject.FindGameObjectWithTag("Main Camera").GetComponent<S>
         GameObject.Find("QuizGame").SetActive(false);
         Instructions.SetActive(true);
@@ -520,13 +527,20 @@ public class CanvasUIFunctions : MonoBehaviour
     public void Update()
     {
         
-        /*
+        
         if (carbCarl.IsTouching(startLine))
         {
             touching = true;
             Debug.Log("Touching the Line");
         }
-
+        if (carbCarl.IsTouching(Finish.GetComponent<Collider2D>()))
+            {
+            resultsPanel.SetActive(true);
+            move = false;
+            output.text = "YOU WIN!";
+            Des.text = "The complex carbs really gave us an extra boost at this race!";
+        }
+        /*
         else if (carbCarl.IsTouching(topLine))
         {
             touchingTop = true;
@@ -552,43 +566,42 @@ public class CanvasUIFunctions : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
+                    //Debug.Log("Move left");
                     Debug.Log("Move left");
                     Vector3 position = trackCarb.transform.position;
                     position.x -= speed;
                     trackCarb.transform.position = position;
-                    
-                    //Vector2 move = new Vector2(-1, 0);
-                    //rigid.MovePosition(rigid.position + move);
+
 
                     Vector3 positionTrack = track.transform.position;
-                    positionTrack.x += (float)1.5 * speed;
+                    positionTrack.x += (float)2 * speed;
                     track.transform.position = positionTrack;
                     
                 }
             }
 
-            //if (!carbCarl.IsTouching(Hurdle1) && !carbCarl.IsTouching(Hurdle2) && !carbCarl.IsTouching(Hurdle3))
-            //{
+            if (!carbCarl.IsTouching(Hurdle1) && !carbCarl.IsTouching(Hurdle2) && !carbCarl.IsTouching(Hurdle3))
+            {
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
-                //Vector2 move = new Vector2(1, 0);
-                //rigid.MovePosition(rigid.position + move);
-                
+
                     Vector3 position = trackCarb.transform.position;
                     position.x += speed;
                     trackCarb.transform.position = position;
-                
+
 
                     Vector3 positionTrack = track.transform.position;
-                    positionTrack.x -= (float)1.5 * speed;
+                    positionTrack.x -= (float)2 * speed;
                     track.transform.position = positionTrack;
 
                 }
-            //}
+            }
+            
 
             if (isGrounded() && Input.GetKey(KeyCode.UpArrow))
             {
-                float jumpVelocity = 150f;
+
+                float jumpVelocity = 200f;
                 rigid.velocity = Vector2.up * jumpVelocity;
             }
             
@@ -597,7 +610,8 @@ public class CanvasUIFunctions : MonoBehaviour
             {
                 if (powerups > 0)
                 {
-                    speed ++;
+                   
+                    speed += 0.5f;
                     powerups--;
                     boostTimer += Time.deltaTime;
                     if (boostTimer >= 1)
@@ -615,7 +629,7 @@ public class CanvasUIFunctions : MonoBehaviour
     private bool isGrounded()
     {
         RaycastHit2D raycast = Physics2D.BoxCast(carbCarl.bounds.center, carbCarl.bounds.size, 0f, Vector2.down, .1f, PlatformLayerMask);
-        //Debug.Log(raycast.collider);
+        Debug.Log(raycast.collider);
         return raycast.collider != null;
 
     }

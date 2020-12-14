@@ -34,6 +34,12 @@ public class FollowThePath : MonoBehaviour
         // If  reached last waypoint then it stops
         if (waypointIndex <= waypoints.Length-1)
         {
+
+            // Move  from current waypoint to the next one
+            // using MoveTowards method
+            transform.position = Vector2.MoveTowards(transform.position,
+               waypoints[waypointIndex].transform.position,
+               moveSpeed * Time.deltaTime);
             // If  reaches position of waypoint he walked towards
             // then waypointIndex is increased by 1
             // and  starts to walk to the next waypoint
@@ -41,11 +47,7 @@ public class FollowThePath : MonoBehaviour
             {
                 waypointIndex += 1;
             }
-            // Move  from current waypoint to the next one
-            // using MoveTowards method
-            transform.position = Vector2.MoveTowards(transform.position,
-               waypoints[waypointIndex].transform.position,
-               moveSpeed * Time.deltaTime);
+            
 
             
         }

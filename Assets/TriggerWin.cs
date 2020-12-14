@@ -30,6 +30,7 @@ public class TriggerWin : MonoBehaviour
             Debug.Log("I WIN");
             resultsPanel.SetActive(true);
             canvas.GetComponent<CanvasUIFunctions>().move = false;
+            canvas.GetComponent<CanvasUIFunctions>().trackCarb.GetComponent<Rigidbody2D>().velocity = new Vector2 (0f,0f);
             Output.text = "YOU WIN!";
             Des.text = "The complex carbs really gave us an extra boost at this race!";
         }
@@ -39,6 +40,8 @@ public class TriggerWin : MonoBehaviour
             Debug.Log("I LOSE");
             resultsPanel.SetActive(true);
             canvas.GetComponent<CanvasUIFunctions>().move = false;
+            canvas.GetComponent<CanvasUIFunctions>().trackCarb.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
+
             Des.text = "Better luck next time!";
             Output.text = "YOU LOSE!";
         }

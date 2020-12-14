@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HurdleJump : MonoBehaviour
 {
-    public Rigidbody2D g;
+    public GameObject canvas;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +21,6 @@ public class HurdleJump : MonoBehaviour
     {
         Debug.Log("TRIGGERED");
         //g.AddForce(Vector2.up * 100);
-        Vector2 pos;
-        pos = g.transform.position;
-        pos.y += 10;
-        g.transform.position = pos;
-        //pos.y -= 3;
-        g.transform.position = pos;
+        //canvas.GetComponent<CanvasUIFunctions>().trackCarb.GetComponent<Rigidbody2D>().velocity *= -1;
     }
 }
